@@ -1,0 +1,85 @@
+{% extends 'myusuariosapp/base.html' %}
+{% load static %}
+{%block contenido %}
+<div class="container" id="formulario">
+	<div class="col-md-12">
+			<div class="form-group col-md-10">
+				<h2>Registrarme</h2>
+        	</div>
+	</div>
+	{% if messages %}
+		{% for mensaje in messages%}
+			{{ mensaje }}
+		{% endfor %}
+	{% endif %}
+	<form method="POST" id="usuariosform">
+		{% csrf_token %}
+
+		<div class="form-row ">
+			<div class="form-group col-md-12">
+				<div class="form-group col-md-6 regis-imagen">
+					<img src="https://media-adsa.camilyo.software/media-adsa/static/3480/843.jpg">
+				</div>
+                <div class="form-group col-md-6">
+                    <label>Nombre</label>
+					{{ form.nombre }}
+                </div>
+				<div class="form-group col-md-6">
+                    <label>Identificador usuario</label>
+					{{ form.id_usuario }}
+                </div>
+				<div class="form-group col-md-6">
+                    <label>Apellido Paterno</label>
+                          <input type="text" class="input-form" name="apellidop" id="apellidop" placeholder="Ingrese el apellido paterno" required>
+                </div>
+				<div class="form-group col-md-6">
+                    <label>Apellido Materno</label>
+                    <input type="text" class="input-form" name="apellidom" id="apellidom" placeholder="Ingrese el apellido materno" required>
+                </div>
+				<div class="form-group col-md-6">
+                    <label>Edad</label>
+					{{ form.edad }}
+				</div>
+				<div class="form-group col-md-6">
+                    <label>Email</label>
+					{{ form.email }}
+                </div>
+				<div class="form-group col-md-6">
+                    <label>Telefono</label>
+					{{ form.telefono }}
+                </div>
+
+
+
+
+
+				<div class="form-group col-md-6">
+					<center>
+						<a class="btn " id="regresa" href="{%url 'url_inicio'%}">Regresar</a>
+						<button type="submit" class="input-boton center" onclick="">Guardar</button>
+					</center>
+				</div>
+
+
+			</div>
+		</div>
+	</form>
+
+</div>
+
+    <!-- JQUERY -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+			integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <!-- DATATABLES -->
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+
+	<!-- ALERTAS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+    <!-- JAVASCRIPT -->
+    <script src="{% static 'js/alertas.js' %}?version=Math.random();"></script>
+    <script src="{% static 'js/confiDatatables.js' %}?version2=Math.random();"></script>
+
+{% endblock %}

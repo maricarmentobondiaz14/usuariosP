@@ -1,0 +1,92 @@
+CREATE DATABASE grupobm;
+use grupobm;
+CREATE TABLE empresa 
+(id_empresa    	INT(12)	NOT NULL 	                COMMENT 'Identificador de la empresa'
+,nombre    	VARCHAR(20) 	NOT NULL 		COMMENT 'Nombre de la empresa'
+,ubicacion	VARCHAR(30) 	NOT NULL 		COMMENT 'Ubicación de donde se encuentra la empresa' 
+,ciudad		VARCHAR(20) 	NOT NULL 		COMMENT 'Ciudad de donde se encuentra la empresa'
+,codigoPostal	INT(5) 		NOT NULL 		COMMENT 'Código Postal de donde se encuentra la empresa'
+,telefono	VARCHAR(10) 	NOT NULL	        COMMENT 'Teléfono de la empresa'
+,PRIMARY KEY empresa_pk (id_empresa)
+);
+ALTER TABLE empresa COMMENT ='Catálogo de la empresa del sistema';
+
+CREATE TABLE empleados 
+(id_empleado    	INT(12)	        NOT NULL 	        COMMENT 'Identificador del empleado'
+,nombre    	        VARCHAR(20) 	NOT NULL 		COMMENT 'Nombre del empleado'
+,cargo	                VARCHAR(20) 	NOT NULL 		COMMENT 'Cargo del empleado' 
+,direccion		VARCHAR(30) 	NOT NULL 		COMMENT 'direccion del empleado'
+,rfc	                INT(12) 	NOT NULL 		COMMENT 'rfc del empleado'
+,email	                VARCHAR(20) 	NOT NULL	        COMMENT 'email del empleado'
+,telefono               INT(10)         NOT NULL                COMMENT 'Teléfono de la empresa'
+,PRIMARY KEY empleado_pk (id_empleado)
+);
+ALTER TABLE empresa COMMENT ='Catálogo de los empleados del sistema';
+
+
+CREATE TABLE cliente 
+(id_cliente             INT(12)	        NOT NULL 	        COMMENT 'Identificador del empleado'
+,nombre    	        VARCHAR(20) 	NOT NULL 		COMMENT 'Nombre del empleado'
+,direccion		VARCHAR(30) 	NOT NULL 		COMMENT 'direccion del empleado'
+,email	                VARCHAR(20) 	NOT NULL	        COMMENT 'email del empleado'
+,telefono               INT(10)         NOT NULL                COMMENT 'Teléfono de la empresa'
+,PRIMARY KEY cliente_pk (id_cliente)
+);
+ALTER TABLE empresa COMMENT ='Catálogo del cliente del sistema';
+CREATE TABLE categoria
+(
+id_categoria     INT(12)     NOT NULL
+,nombre          VARCHAR(20) NOT NULL
+,PRIMARY KEY categoria_pk(id_categoria)
+);
+ALTER TABLE categoria COMMENT ='Catálogo de categoria del sistema';
+
+CREATE TABLE subcategoria
+(
+id_sub_categoria INT(12)     NOT NULL
+,nombre          VARCHAR(20) NOT NULL
+,id_categoria    INT(12)     NOT NULL
+,PRIMARY KEY subcategoria_pk(id_sub_categoria)
+,CONSTRAINT FOREIGN KEY cat_cat_fk (id_categoria) REFERENCES categoria (id_categoria)
+
+);
+ALTER TABLE subcategoria COMMENT ='Catálogo de subcategoria del sistema';
+CREATE TABLE productos
+(
+id_producto INT(12) NOT NULL
+,nombre     VARCHAR(20) NOT NULL
+,precio     DECIMAL(10,2) NOT NULL
+,cantidad_existencia INT(5) NOT NULL
+,id_sub_categoria    INT(12) NOT NULL
+,PRIMARY KEY producto_pk(id_producto)
+,CONSTRAINT FOREIGN KEY sub_sub_fk (id_sub_categoria) REFERENCES subcategoria (id_sub_categoria)
+
+);
+ALTER TABLE productos COMMENT ='Catálogo de productos del sistema';
+CREATE TABLE venta
+(
+id_venta INT(12) NOT NULL
+,codigo_caja VARCHAR(10) NOT NULL
+,fecha_venta DATE NOT NULL
+,total DECIMAL(10,2) NOT NULL
+,id_cliente INT(12) NOT NULL
+,id_empleado INT(12) NOT NULL
+,id_empresa INT(12) NOT NULL
+,PRIMARY KEY venta_pk(id_venta)
+,CONSTRAINT FOREIGN KEY cli_fk (id_cliente) REFERENCES cliente(id_cliente)
+,CONSTRAINT FOREIGN KEY empl_fk (id_empleado) REFERENCES empleados(id_empleado)
+,CONSTRAINT FOREIGN KEY empr_fk (id_empresa) REFERENCES empresa(id_empresa)
+);
+ALTER TABLE venta COMMENT ='Catálogo de ventas del sistema';
+CREATE TABLE detalleVenta
+(
+id_detalle_venta INT(12) NOT NULL
+,id_venta INT(12) NOT NULL
+,id_producto INT(12) NOT NULL
+,cantidad INT(5) NOT NULL
+,descuento DECIMAL(10,2) NOT NULL
+,PRIMARY KEY detalle_venta_pk(id_detalle_venta)
+,CONSTRAINT FOREIGN KEY ven_fk (id_venta) REFERENCES venta(id_venta)
+,CONSTRAINT FOREIGN KEY pro_fk (id_producto) REFERENCES productos(id_producto)
+);
+ALTER TABLE detalleVenta COMMENT ='Catálogo de detalles de venta del sistema';
